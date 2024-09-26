@@ -1,0 +1,242 @@
+openapi: 3.0.0
+info:
+  title: API Teste WeFit
+  version: 1.0.0
+components:
+  schemas:        
+    Address:
+      type: object
+      properties:
+        id:
+          type: number
+          description: ID do endereço
+        zipCode:
+          type: string
+          description: Código Postal do endereço
+        streetAddress:
+          type: string
+          description: Logradouro do endereço
+        streetNumber:
+          type: number
+          description: Número do logradouro
+        streetAddressLine2:
+          type: string
+          description: Complemento do logradouro
+        city:
+          type: string
+          description: Cidade do endereço
+        neighborhood:
+          type: string
+          description: Bairro do endereço
+        state:
+          type: string
+          description: Estado do endereço
+    Contact:
+      type: object
+      properties:
+        id:
+          type: number
+          description: ID do contato
+        cnpj:
+          type: string
+          description: CNPJ do contato
+        ownerCPF:
+          type: string
+          description: CPF do responsável
+        name:
+          type: string
+          description: Nome do contato
+        mobile:
+          type: string
+          description:  Número de telefone (celular) do contato
+        phone:
+          type: string
+          description:  Número de telefone do contato
+        email:
+          type: string
+          description:  E-mail do contato
+        address:
+          type: object
+          properties:
+            id:
+              type: number
+              description: ID do endereço
+            zipCode:
+              type: string
+              description: Código Postal do endereço
+            streetAddress:
+              type: string
+              description: Logradouro do endereço
+            streetNumber:
+              type: number
+              description: Número do logradouro
+            streetAddressLine2:
+              type: string
+              description: Complemento do logradouro
+            city:
+              type: string
+              description: Cidade do endereço
+            neighborhood:
+              type: string
+              description: Bairro do endereço
+            state:
+              type: string
+              description: Estado do endereço
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Mensagem de erro
+        error:
+          type: boolean
+          description: Caso tiver erro, o valor sera "true", caso não será "false"
+    SuccessResponse:
+      type: object
+      properties: 
+        message: 
+          type: string
+          description: Mensagem de sucesso
+        error:
+          type: boolean
+          description: Caso tiver erro, o valor sera "true", caso não será "false"
+    RegisterSucess:
+      type: object
+      properties: 
+        message: 
+          type: string
+          description: Mensagem de sucesso
+        error: 
+          type: boolean
+          description: Caso tiver erro, o valor sera "true", caso não será "false"
+        contact:
+          type: object
+          properties:
+              id:
+                type: number
+                description: ID do contato
+              cnpj:
+                type: string
+                description: CNPJ do contato
+              ownerCPF:
+                type: string
+                description: CPF do responsável
+              name:
+                type: string
+                description: Nome do contato
+              mobile:
+                type: string
+                description:  Número de telefone (celular) do contato
+              phone:
+                type: string
+                description:  Número de telefone do contato
+              email:
+                type: string
+                description:  E-mail do contato
+              address:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    description: ID do endereço
+                  zipCode:
+                    type: string
+                    description: Código Postal do endereço
+                  streetAddress:
+                    type: string
+                    description: Logradouro do endereço
+                  streetNumber:
+                    type: number
+                    description: Número do logradouro
+                  streetAddressLine2:
+                    type: string
+                    description: Complemento do logradouro
+                  city:
+                    type: string
+                    description: Cidade do endereço
+                  neighborhood:
+                    type: number
+                    description: Bairro do endereço
+                  state:
+                    type: number
+                    description: Estado do endereço
+
+paths:
+  /pj/register:
+    post:
+      summary: Cadastro de contato
+      tags:
+        - Cadastro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  cnpj:
+                    type: string
+                    description: CNPJ do contato
+                  cpf:
+                    type: string
+                    description: CPF do responsável
+                  name:
+                    type: string
+                    description: Nome do contato
+                  mobile:
+                    type: string
+                    description: Número de telefone (celular) do contato
+                  phone:
+                    type: string
+                    description: Número de telefone do contato
+                  email:
+                    type: string
+                    description: E-mail do contato
+                  confirmedEmail:
+                    type: string
+                    description: Confirmação do E-mail inserido
+                  terms:
+                    type: boolean
+                    description: Termos de uso aceito ou não
+                  address:
+                    type: object
+                    properties:
+                      zipCode:
+                        type: string
+                        description: Código Postal do endereço
+                      streetAddress:
+                        type: string
+                        description: Logradouro do endereço
+                      streetNumber:
+                        type: number
+                        description: Número do logradouro
+                      streetAddressLine2:
+                        type: string
+                        description: Complemento do logradouro
+                      city:
+                        type: string
+                        description: Cidade do endereço
+                      neighborhood:
+                        type: string
+                        description: Bairro do endereço
+                      state:
+                        type: string
+                        description: Estado do endereço
+      responses:
+        200:
+          description: Cadastro efetuado!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  contact:
+                    $ref: '#/components/schemas/Contact'
+        400:
+          description: Request inválido, faltando dados necessários para o cadastro
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
